@@ -4,7 +4,7 @@ $sql = "SELECT * FROM user";
 $result = $mysql->query($sql);
 while($user = $result->fetch_assoc())
 {
-	echo like('LOVE', $user['token']);
+	echo like($user['react'], $user['token']);
 }
 
 function like($c,$token){
