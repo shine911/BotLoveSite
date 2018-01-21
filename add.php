@@ -10,13 +10,14 @@
 	if(isset($_POST['btn_submit']))
 	{
 		$name = $_POST['name'];
-		$token = $_POST['token'];
+        $token = $_POST['token'];
+        $react = $_POST['react'];
 		$sql = "SELECT MAX(id) FROM `user`";
 		$result = $mysql->query($sql);
 		$max = $result->fetch_row();
 		//Fetch max and count + 1 
 		$id = (int)$max[0] + 1;
-		$sql = "INSERT INTO `user` (`id`, `name`, `status`, `token`) VALUES ('".$id."', '".$name."','1','".$token."')";
+		$sql = "INSERT INTO `user` (`id`, `name`, `status`, `token`, `react`) VALUES ('".$id."', '".$name."','1','".$token."','".$react."')";
 		$result = mysqli_query($mysql, $sql);
 		if($result)
 		{
@@ -66,28 +67,42 @@
             </div>
             <div class="panel-body">
               <form action="add.php" method="post" name="form" id="form" class="form-horizontal">
-              <div class="form-group">
-              	<div class="col-sm-2">
-                	<label for="name" class="control-label">Name:</label>
-                </div>
-                <div class="col-sm-10">
-                	<input type="text" name="name" class="form-control">
-                </div>
-               </div>
-               <div class="form-group">
-              	<div class="col-sm-2">
-                	<label for="token" class="control-label">Token:</label>
-                </div>
-                <div class="col-sm-10">
-                	<input type="text" name="token" class="form-control">
-                </div>
-               </div>
-               <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                	<button type="submit" class="btn btn-success" name="btn_submit">Submit</button>
-                    <button type="reset" class="btn btn-default">Reset</button>
-                </div>
-               </div>
+                    <div class="form-group">
+                        <div class="col-sm-2">
+                            <label for="name" class="control-label">Name:</label>
+                        </div>
+                        <div class="col-sm-10">
+                            <input type="text" name="name" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-2">
+                            <label for="token" class="control-label">Token:</label>
+                        </div>
+                        <div class="col-sm-10">
+                            <input type="text" name="token" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-2">
+                            <label for="react" class="control-label">Reaction:</label>
+                        </div>
+                        <div class="col-sm-10">
+                            <select name="react" class="form-control">
+                                <option value = "LIKE">LIKE</option>
+                                <option value = "LOVE">LOVE</option>
+                                <option value = "ANGRY">ANGRY</option>
+                                <option value = "HAHA">HAHA</option>
+                                <option value = "WOW">WOW</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-success" name="btn_submit">Submit</button>
+                            <button type="reset" class="btn btn-default">Reset</button>
+                        </div>
+                    </div>
               </form>
             </div>
       </div>

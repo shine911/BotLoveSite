@@ -71,7 +71,7 @@
                   <?php
 					$sql ='SELECT * FROM user';
 					$result = mysqli_query($mysql,$sql);
-				
+					$count = 1;
 					while($row = mysqli_fetch_array($result))
 					{
 						/* Set active or offline status */
@@ -86,7 +86,7 @@
 						}
 						echo'
 						  	<tr>
-							<td>'.$row['id'].'</td>
+							<td>'.$count.'</td>
 							<td>'.$row['name'].'</td>
 							<td style="color:'.$color.'">'.$status.'</td>
 							<td> <a href="?edit='.$row['id'].'"><button class="btn btn-primary">Edit</button></a>&nbsp;
@@ -94,21 +94,21 @@
 							</td>
 							</tr>
 						';
+						$count++;
 					}
 				  ?>
                   </tbody>
               </table>
-	<!--AddButton-->
-    <div class="col-sm-offset-10 col-sm-2">
-    <a href="add.php"><button name="btn_add" class="btn btn-success"><span class="glyphicon glyphicon-edit"></span> Add User</button></a>
-     </div>
-    <!--EndAddButton-->
-              <!--EndTable-->
-            </div>
-        </div>
-    </div>
-
-    <!--EndContent-->
+				<!--AddButton-->
+					<div class="col-sm-offset-10 col-sm-2">
+						<a href="add.php"><button name="btn_add" class="btn btn-success"><span class="glyphicon glyphicon-edit"></span> Add User</button></a>
+					</div>
+				<!--EndAddButton-->
+				<!--EndTable-->
+			</div>
+		</div>
+	</div>
+<!--EndContent-->
 </div>
 </body>
 </html>
@@ -123,7 +123,8 @@
 		{
 			$token = $_POST['token'];
 			$name = $_POST['name'];
-			$sql = "UPDATE `user` SET `token` = '".$token."', name='".$name."' WHERE `user`.`id` = ".$id.";";
+			$react = $_POST['react'];
+			$sql = "UPDATE `user` SET `token` = '".$token."', name='".$name."', react='".$react."' WHERE `user`.`id` = ".$id.";";
 			$result = mysqli_query($mysql,$sql);
 		}
 		
@@ -148,22 +149,34 @@
 					<div class="modal-body">
 						<div class="form-group">
 							<label class="control-label col-sm-2" for="id">ID:</label>
-							<div class="col-sm-10">
-							  <input type="text" class="form-control" name="id" value="'.$getInfo['id'].'" disabled>
-							</div>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" name="id" value="'.$getInfo['id'].'" disabled>
+								</div>
 						  </div>
 						  <div class="form-group">
 							<label class="control-label col-sm-2" for="name">Name:</label>
-							<div class="col-sm-10">
-							  <input type="text" class="form-control" name="name" value="'.$getInfo['name'].'">
-							</div>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" name="name" value="'.$getInfo['name'].'">
+								</div>
 						  </div>
 						  <div class="form-group">
-							<label class="control-label col-sm-2" for="token">Token:</label>
-							<div class="col-sm-10"> 
-							  <input type="text" class="form-control" name="token" value="'.$getInfo['token'].'">
+								<label class="control-label col-sm-2" for="token">Token:</label>
+								<div class="col-sm-10"> 
+									<input type="text" class="form-control" name="token" value="'.$getInfo['token'].'">
+								</div>
 							</div>
-						  </div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label" for="react">Reaction:</label>
+								<div class="col-sm-10">
+									<select name="react" class="form-control">
+										<option value = "LIKE">LIKE</option>
+										<option value = "LOVE">LOVE</option>
+										<option value = "ANGRY">ANGRY</option>
+										<option value = "HAHA">HAHA</option>
+										<option value = "WOW">WOW</option>
+									</select>
+								</div>
+							</div>
 					</div>
 					<div class="modal-footer">
 						<div class="form-group">
@@ -192,7 +205,7 @@
 		if (mysqli_query($mysql, $sql)) {
 			$sql = "SELECT name FROM user";
 			$result = $mysql->query($sql);
-			$count = 1;
+			$count = 0;
 			while($data = $result->fetch_assoc())
 			{
 				$sql1 = "UPDATE user SET id = ".$count." WHERE name = '".$data['name']."';";
